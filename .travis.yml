@@ -1,0 +1,21 @@
+# This is a basic workflow to help you get started with Actions
+
+language: c
+dist: xenial
+compiler: gcc
+sudo: required
+install:
+    - sudo apt-get update
+     #Install cmake
+    - sudo apt install -y cmake
+
+     #Install valgrind
+    - sudo apt-get install -y valgrind
+
+    #Install cppcheck
+    - sudo apt-get install -y cppcheck
+
+script:
+    - cd ../
+    - git clone https://github.com/torvalds/linux.git
+    - ls linux
