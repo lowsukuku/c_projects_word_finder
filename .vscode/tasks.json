@@ -13,6 +13,19 @@
             "options": {
                 "cwd": "C:\\Dev\\MinGW\\bin"
             }
+        },
+        {
+            "type": "shell",
+            "label": "cmake make project",
+            "command": "mkdir -p build && cd build && cmake ../ && make ${workspaceFolderBasename}_test",
+            "args": [],
+            "options": {
+                "cwd": ""
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ],
     "version": "2.0.0"
