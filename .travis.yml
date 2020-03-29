@@ -18,7 +18,7 @@ install:
 script:
     - cd ../
     - git clone https://github.com/python/cpython.git
-    - cd ../c_projects_word_finder
+    - cd c_projects_word_finder
     - mkdir build
     - cd build
     - cmake ../

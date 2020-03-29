@@ -5,5 +5,5 @@ extern "C" {
 }
 
 TEST(test, test1) {
-  printSortedStatistics((char *)"../cpython", (char *)"int");
+  printSortedStatistics((char *)"../../cpython", (char *)"int");
 }
