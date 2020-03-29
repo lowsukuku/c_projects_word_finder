@@ -62,13 +62,10 @@ occurencyStatistics *getStatistics(namesVector names, char *word) {
     arguments[i].occurenciesCounter = &(statisticsArray[i].occurencies);
     arguments[i].word = word;
     arguments[i].path = names.data[i];
-    // threadArguments args = {&(statisticsArray[i].occurencies), word,
-    //                         names.data[i]};
     pthread_create(&(threads[i]), NULL, occurenciesRoutine,
                    (void *)&(arguments[i]));
-    // statisticsArray[i].occurencies = getOccurencies(word, names.data[i]);
   }
-  for (size_t i = 0; i < names.tailPosition; i++){
+  for (size_t i = 0; i < names.tailPosition; i++) {
     pthread_join(threads[i], NULL);
   }
   free(threads);

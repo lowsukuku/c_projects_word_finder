@@ -17,5 +17,13 @@ install:
 
 script:
     - cd ../
-    - git clone https://github.com/torvalds/linux.git
-    - ls linux
+    - git clone https://github.com/python/cpython.git
+    - cd ../c_projects_word_finder
+    - mkdir build
+    - cd build
+    - cmake ../
+    - make c_projects_word_finder_test
+    - cppcheck ../ -ibuild
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_test
+    - current_sha=$(git rev-parse HEAD)
+    - bash <(curl -s https://codecov.io/bash) -C $current_sha

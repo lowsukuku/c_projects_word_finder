@@ -33,8 +33,9 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 set(CMAKE_BUILD_TYPE Debug)
 file(GLOB sources "source/*.c")
+file(GLOB tests "tests/*.cpp")
 add_library(${PROJECT_NAME}_dlib SHARED ${sources})
 target_compile_options(${PROJECT_NAME}_dlib PRIVATE -Wall -Wextra -pedantic -Werror -pthread)
-add_executable(${PROJECT_NAME}_test tests/test.c)
+add_executable(${PROJECT_NAME}_test ${tests})
 target_compile_options(${PROJECT_NAME}_test PRIVATE -Wall -Wextra -pedantic -Werror -pthread)
 target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}_dlib pthread)
