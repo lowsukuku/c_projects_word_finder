@@ -45,12 +45,15 @@ void sortOccurencies(occurencyStatistics *statistics, size_t count) {
   }
 }
 
+#ifdef DYNAMIC
 typedef struct threadArguments {
   int *occurenciesCounter;
   char *word;
   char *path;
 } threadArguments;
+#endif
 
+#ifdef DYNAMIC
 occurencyStatistics *getStatistics(namesVector names, char *word) {
   occurencyStatistics *statisticsArray =
       malloc(names.tailPosition * sizeof(occurencyStatistics));
@@ -72,12 +75,25 @@ occurencyStatistics *getStatistics(namesVector names, char *word) {
   free(arguments);
   return statisticsArray;
 }
+#elif defined STATIC
+occurencyStatistics *getStatistics(namesVector names, char *word) {
+  occurencyStatistics *statisticsArray =
+      malloc(names.tailPosition * sizeof(occurencyStatistics));
+  for (size_t i = 0; i < names.tailPosition; i++) {
+    statisticsArray[i].name = names.data[i];
+    statisticsArray[i].occurencies = getOccurencies(word, names.data[i]);
+  }
+  return statisticsArray;
+}
+#endif
 
+#ifdef DYNAMIC
 void *occurenciesRoutine(void *args) {
   *(((threadArguments *)args)->occurenciesCounter) = getOccurencies(
       ((threadArguments *)args)->word, ((threadArguments *)args)->path);
   return NULL;
 }
+#endif
 
 int getOccurencies(const char *word, const char *path) {
   int occurencies = 0;

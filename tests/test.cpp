@@ -4,4 +4,6 @@ extern "C" {
 #include "../source/occurenciesFinder.h"
 }
 
-TEST(test, test1) { printSortedStatistics("../cpython", "int"); }
+TEST(test, test1) {
+  printSortedStatistics((char *)"../cpython", (char *)"int");
+}

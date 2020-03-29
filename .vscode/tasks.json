@@ -17,7 +17,7 @@
         {
             "type": "shell",
             "label": "cmake make project",
-            "command": "mkdir -p build && cd build && cmake ../ && make ${workspaceFolderBasename}_test",
+            "command": "mkdir -p build && cd build && cmake ../ && make buildAll",
             "args": [],
             "options": {
                 "cwd": ""

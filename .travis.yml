@@ -22,8 +22,9 @@ script:
     - mkdir build
     - cd build
     - cmake ../
-    - make c_projects_word_finder_test
+    - make buildAll
     - cppcheck ../ -ibuild
-    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_test
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_staticTest
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_dynamicTest
     - current_sha=$(git rev-parse HEAD)
     - bash <(curl -s https://codecov.io/bash) -C $current_sha
