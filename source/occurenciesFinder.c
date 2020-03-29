@@ -1,5 +1,6 @@
 #include "occurenciesFinder.h"
 #include <ctype.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 #include "fileFinder.h"
@@ -18,6 +19,7 @@ typedef struct occurencyStatistics {
 void sortOccurencies(occurencyStatistics *statistics, size_t count);
 occurencyStatistics *getStatistics(namesVector names, char *word);
 int getOccurencies(const char *word, const char *path);
+void *occurenciesRoutine(void *args);
 
 void printSortedStatistics(char *path, char *word) {
   namesVector names = {0};
@@ -43,14 +45,41 @@ void sortOccurencies(occurencyStatistics *statistics, size_t count) {
   }
 }
 
+typedef struct threadArguments {
+  int *occurenciesCounter;
+  char *word;
+  char *path;
+} threadArguments;
+
 occurencyStatistics *getStatistics(namesVector names, char *word) {
   occurencyStatistics *statisticsArray =
       malloc(names.tailPosition * sizeof(occurencyStatistics));
+  pthread_t *threads = malloc(names.tailPosition * sizeof(pthread_t));
+  threadArguments *arguments =
+      malloc(names.tailPosition * sizeof(threadArguments));
   for (size_t i = 0; i < names.tailPosition; i++) {
     statisticsArray[i].name = names.data[i];
-    statisticsArray[i].occurencies = getOccurencies(word, names.data[i]);
+    arguments[i].occurenciesCounter = &(statisticsArray[i].occurencies);
+    arguments[i].word = word;
+    arguments[i].path = names.data[i];
+    // threadArguments args = {&(statisticsArray[i].occurencies), word,
+    //                         names.data[i]};
+    pthread_create(&(threads[i]), NULL, occurenciesRoutine,
+                   (void *)&(arguments[i]));
+    // statisticsArray[i].occurencies = getOccurencies(word, names.data[i]);
   }
+  for (size_t i = 0; i < names.tailPosition; i++){
+    pthread_join(threads[i], NULL);
+  }
+  free(threads);
+  free(arguments);
   return statisticsArray;
+}
+
+void *occurenciesRoutine(void *args) {
+  *(((threadArguments *)args)->occurenciesCounter) = getOccurencies(
+      ((threadArguments *)args)->word, ((threadArguments *)args)->path);
+  return NULL;
 }
 
 int getOccurencies(const char *word, const char *path) {
