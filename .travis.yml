@@ -19,13 +19,14 @@ script:
     - cd ../
     - git clone https://github.com/python/cpython.git
     - cd c_projects_word_finder
-    - find ../cpython -iname '*.c' > tests/filelist.txt
+    
     - mkdir build
     - cd build
+    - find ../../cpython -iname '*.c' > ../tests/filelist.txt
     - cmake ../
     - make buildAll
     - cppcheck ../ -ibuild
-    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_staticTest
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_staticTest 
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_dynamicTest
     - ./c_projects_word_finder_staticBenchmark
     - ./c_projects_word_finder_dynamicBenchmark
