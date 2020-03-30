@@ -27,5 +27,7 @@ script:
     - cppcheck ../ -ibuild
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_staticTest
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./c_projects_word_finder_dynamicTest
+    - ./c_projects_word_finder_staticBenchmark
+    - ./c_projects_word_finder_dynamicBenchmark
     - current_sha=$(git rev-parse HEAD)
     - bash <(curl -s https://codecov.io/bash) -C $current_sha

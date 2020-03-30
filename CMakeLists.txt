@@ -28,18 +28,23 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
                  EXCLUDE_FROM_ALL)
 
-# find_package(GTest REQUIRED)
-# include_directories(${GTEST_INCLUDE_DIRS})
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/benchmark-src
+                 ${CMAKE_CURRENT_BINARY_DIR}/benchmark-build
+                 EXCLUDE_FROM_ALL)
 
 set(CMAKE_BUILD_TYPE Debug)
 file(GLOB sources "source/*.c")
 file(GLOB tests "tests/*.cpp")
+file(GLOB benchmarks "benchmarks/*.cpp")
+
 
 add_library(${PROJECT_NAME}_lib STATIC ${sources})
 target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -pedantic -Werror)
 target_compile_definitions(${PROJECT_NAME}_lib PUBLIC STATIC)
 add_executable(${PROJECT_NAME}_staticTest ${tests})
 target_link_libraries(${PROJECT_NAME}_staticTest PRIVATE ${PROJECT_NAME}_lib gtest_main)
+add_executable(${PROJECT_NAME}_staticBenchmark ${benchmarks})
+target_link_libraries(${PROJECT_NAME}_staticBenchmark PRIVATE ${PROJECT_NAME}_lib benchmark::benchmark)
 
 add_library(${PROJECT_NAME}_dlib SHARED ${sources})
 target_compile_options(${PROJECT_NAME}_dlib PRIVATE -Wall -Wextra -pedantic -Werror -pthread)
@@ -47,7 +52,10 @@ target_compile_definitions(${PROJECT_NAME}_dlib PUBLIC DYNAMIC)
 add_executable(${PROJECT_NAME}_dynamicTest ${tests})
 target_compile_options(${PROJECT_NAME}_dynamicTest PRIVATE -Wall -Wextra -pedantic -Werror -pthread)
 target_link_libraries(${PROJECT_NAME}_dynamicTest PRIVATE ${PROJECT_NAME}_dlib pthread gtest_main)
+add_executable(${PROJECT_NAME}_dynamicBenchmark ${benchmarks})
+target_link_libraries(${PROJECT_NAME}_dynamicBenchmark PRIVATE ${PROJECT_NAME}_dlib benchmark::benchmark)
 
 add_custom_target(buildAll COMMAND make gtest && make gtest_main 
 && mv lib/libgtest_main.a lib/libgtest_maind.a && mv lib/libgtest.a lib/libgtestd.a
-&& make ${PROJECT_NAME}_staticTest && make ${PROJECT_NAME}_dynamicTest)
+&& make ${PROJECT_NAME}_staticTest && make ${PROJECT_NAME}_dynamicTest
+&& make ${PROJECT_NAME}_staticBenchmark && make ${PROJECT_NAME}_dynamicBenchmark)
