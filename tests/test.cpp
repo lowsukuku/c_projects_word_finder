@@ -10,7 +10,7 @@ TEST(test, crashTest) {
 }
 
 TEST(test, fileListTest) {
-  namesVector names = {0};
+  namesVector names = {0, 0, 0};
   listdir((char *)"../../cpython", &names);
   FILE *filelist = fopen((char *)"filelist.txt", (char *)"r");
   char *line = (char *)malloc(1000);
@@ -23,6 +23,6 @@ TEST(test, fileListTest) {
 }
 
 TEST(test, invalidPath) {
-  namesVector names = {0};
+  namesVector names = {0, 0, 0};
   ASSERT_EQ(listdir((char *)"someRandomPath", &names), -1);
 }
