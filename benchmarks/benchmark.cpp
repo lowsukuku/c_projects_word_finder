@@ -1,5 +1,6 @@
 #include <benchmark/benchmark.h>
 #include <stdio.h>
+#include <unistd.h>
 extern "C" {
 #include "../source/fileFinder.h"
 #include "../source/occurenciesFinder.h"
