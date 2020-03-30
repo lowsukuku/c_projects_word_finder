@@ -19,6 +19,7 @@ script:
     - cd ../
     - git clone https://github.com/python/cpython.git
     - cd c_projects_word_finder
+    - find ../cpython -iname '*.c' > tests/filelist.txt
     - mkdir build
     - cd build
     - cmake ../
