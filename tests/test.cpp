@@ -14,6 +14,7 @@ TEST(test, fileListTest) {
   namesVector names = {0, 0, 0};
   listdir((char *)"../../cpython", &names);
   FILE *filelist = fopen((char *)"../tests/filelist.txt", (char *)"r");
+  ASSERT_NE(filelist, nullptr);
   char *line = (char *)malloc(1000);
   size_t nameCounter = 0;
   while (!feof(filelist)) {
@@ -34,4 +35,13 @@ TEST(test, invalidPath) {
   namesVector names = {0, 0, 0};
   ASSERT_EQ(listdir((char *)"someRandomPath", &names), -1);
   clearVector(&names);
+}
+
+extern "C" {
+extern int getOccurencies(const char *word, const char *path);
+}
+
+TEST(test, consistencyTest) {
+  ASSERT_EQ(getOccurencies((char *)"world", (char *)"../tests/testText.txt"),
+            8);
 }

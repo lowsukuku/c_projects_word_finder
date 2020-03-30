@@ -1,0 +1,21 @@
+world=1; //1
+world(); //2
+World(); //3
+wOrld(); //4
+woRld(); //5
+worLd(); //6
+worlD(); //7
+WORLD(); //8
+world_not(); //8
+worldnot(); //8
+abc(); //Hello world //8
+/* 
+world=1; 
+world(); 
+World(); 
+wOrld(); 
+woRld(); 
+worLd(); 
+worlD(); 
+WORLD(); 
+*/ //still 8
